@@ -10,7 +10,16 @@ export default function Meme(){
         randomImage:"https://i.imgflip.com/1g8my4.jpg"
     });
 
+    const [allMemes, setAllMemes] = React.useState([])
+
     const[textInput, setTextInput] = React.useState({topText:"", botText:""});
+
+    React.useEffect(()=>{
+        fetch('https://api.imgflip.com/get_memes')
+        .then(res => res.json())
+        .then(results => setAllMemes(results.data.memes))
+    }, [])
+    console.log(allMemes)
     
 
     function toggle(event){
@@ -33,9 +42,9 @@ export default function Meme(){
     }
     
     function getMemeImage() {
-        const memesArray = allMemeImages.data.memes
-        const randomNumber = Math.floor(Math.random() * memesArray.length)
-        return memesArray[randomNumber].url
+        const memesArray = allMemes.memes
+        const randomNumber = Math.floor(Math.random() * allMemes.length)
+        return allMemes[randomNumber].url
     }
 
     return(
